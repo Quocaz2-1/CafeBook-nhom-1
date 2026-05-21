@@ -1,0 +1,163 @@
+````html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Đặt bàn và thức uống tại Cafe Booking - trải nghiệm dịch vụ nhanh chóng và tiện lợi.">
+<title>☕ Cafe Booking - Đặt Bàn Cafe Online</title>
+<link rel="stylesheet" href="css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="index-page">
+<nav class="navbar-top">
+  <div class="container">
+    <div class="navbar-brand">☕ Cafe Booking</div>
+    <div class="navbar-links">
+      <a href="#menu" class="nav-link"><i class="fas fa-utensils"></i> Menu</a>
+      <a href="login.html" class="nav-link"><i class="fas fa-user"></i> Đăng nhập</a>
+      <a href="admin/login.html" class="nav-link"><i class="fas fa-cogs"></i> Quản lý</a>
+    </div>
+    <div id="navAuthAction" class="nav-auth-action"></div>
+  </div>
+</nav>
+
+<div class="container py-5">
+  <section class="page-header hero-section">
+    <div class="hero-content">
+      <span class="hero-badge">Trải nghiệm cao cấp</span>
+      <p class="hero-tagline">Giải pháp đặt bàn cafe tinh tế dành cho khách hàng thông thái</p>
+      <h1 class="hero-title">Đặt bàn & lựa chọn thức uống trong nháy mắt</h1>
+      <p class="hero-subtitle">Cafe Booking mang đến hành trình đặt bàn chuẩn 5 sao: Thanh lịch, nhanh chóng và đáng tin cậy. Chọn bàn đẹp, món yêu thích và nhận xác nhận tức thì.</p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-hero">Khám phá ngay</a>
+        <a href="login.html" class="btn btn-hero-secondary">Đăng nhập</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="row g-4">
+    <!-- MENU SECTION -->
+    <div class="col-lg-7">
+      <section class="section-card menu-section">
+        <div class="section-header">
+          <div class="section-heading">
+            <span class="section-badge">MENU</span>
+            <h4 class="section-title">☕ Menu Đồ Uống</h4>
+          </div>
+          <p class="section-description">Chọn món yêu thích từ danh sách dưới đây và thêm vào giỏ.</p>
+        </div>
+
+        <!-- FILTERS & SEARCH -->
+        <div class="filter-controls">
+          <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search" class="form-control search-input" 
+                   placeholder="🔍Tìm kiếm đồ uống..." aria-label="Tìm kiếm">
+          </div>
+          <select id="filter" class="form-select filter-select" aria-label="Lọc theo thể loại">
+            <option value="all">Tất cả</option>
+          </select>
+          <select id="tableSelect" class="form-select table-select" required aria-label="Chọn bàn">
+            <option value="">📍 Chọn bàn...</option>
+          </select>
+        </div>
+
+        <!-- MENU ITEMS -->
+        <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-4 mt-2" id="menu">
+          <div class="col text-center py-5">
+            <div class="loading -spinner"><i class="fas fa-spinner fa-spin"></i></div>
+            <p class="text-muted" style="margin-top: 12px;">Đang tải menu...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CART & CHECKOUT SECTION -->
+    <div class="col-lg-5">
+      <!-- CART SECTION -->
+      <section class="section-card cart-section mb-3">
+        <div class="cart-header">
+          <h4 class="section-title">🛒 Giỏ Hàng</h4>
+          <span class="cart-badge" id="cartCount">0</span>
+        </div>
+        <ul id="cart" class="cart-list">
+          <li class="cart-empty">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Giỏ hàng trống</p>
+          </li>
+        </ul>
+        <div id="cartTotal" class="cart-total"></div>
+      </section>
+
+      <!-- CHECKOUT SECTION -->
+      <section class="section-card checkout-section">
+        <div class="section-header">
+          <h4 class="section-title">📝 Thông Tin Khách</h4>
+          <p class="section-description">Nhập thông tin để hoàn tất đơn hàng</p>
+        </div>
+        <form id="form" class="checkout-form" novalidate>
+          <div class="form-group">
+            <label for="name" class="form-label"><i class="fas fa-user"></i> Họ Tên <span class="required">*</span></label>
+            <input id="name" type="text" class="form-control form-input" 
+                   placeholder="Ví dụ: Nguyễn Văn A" required autocomplete="name">
+            <small class="error-text" id="errName"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label"><i class="fas fa-phone"></i> Số Điện Thoại <span class="required">*</span></label>
+            <input id="phone" type="tel" class="form-control form-input" 
+                   placeholder="Ví dụ: 0912345678 (10 chữ số)" required autocomplete="tel"
+                   pattern="0[0-9]{9,10}"
+                   title="Số điện thoại phải bắt đầu bằng 0, sau đó là 2-3 chữ số nhắ ngàn hàng (09, 08, 07, 05, 03) và 7-8 chữ số còn lại">
+            <small class="error-text" id="errPhone"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="address" class="form-label"><i class="fas fa-map-marker-alt"></i> Địa Chỉ Chi Tiết <span class="required">*</span></label>
+            <input id="address" type="text" class="form-control form-input" 
+                   placeholder="Ví dụ: 123 Đường Nguyễn Huề, Quận 1, TP.HCM" required autocomplete="street-address"
+                   title="Địa chỉ phải gồm: số nhà, tên đường, quận/huyện, và thành phố (tối thiểu 15 ký tự)">
+            <small class="error-text" id="errAddress"></small>
+          </div>
+
+          <button class="btn btn-checkout w-100" type="submit">
+            <i class="fas fa-check-circle"></i> 
+            <span id="submitBtnText">Đặt Hàng Ngay</span>
+          </button>
+        </form>
+        <p class="checkout-note">
+          <i class="fas fa-info-circle"></i> 
+          Xác nhận để hệ thống gửi tin nhắn xác nhận đơn hàng
+        </p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<footer class="footer-section">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">☕ Cafe Booking</div>
+      <p class="footer-text">Trải nghiệm đặt bàn cafe hiện đại, nhanh chóng và tiện lợi</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/share/1cBAvaF5HK/" class="social-link" title="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/maidat_26/" class="social-link" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        <a href="https://zalo.me/0339091904" class="social-link" title="Zalo" target="_blank" rel="noopener noreferrer"><i class="fas fa-comment"></i></a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Cafe Booking. Tất cả quyền được bảo lưu.</p>
+      <p>SDT: 0383620876 | Địa chỉ: <a href="https://www.google.com/maps/@20.9464608,105.749223,3a,75y,345.34h,79.65t/data=!3m7!1e1!3m5!1s9fe5Et7BrTf0GwSmgU30Jg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D10.354026046562723%26panoid%3D9fe5Et7BrTf0GwSmgU30Jg%26yaw%3D345.3415047130895!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer"><i class="fas fa-map-marker-alt"></i> 24 Ngõ 13 Thanh Lãm</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- JavaScript Files -->
+<script src="js/app.js"></script>
+
+</body>
+</html>
