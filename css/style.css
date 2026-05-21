@@ -344,6 +344,50 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.menu-section .drink-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 238, 176, 0.06) 100%);
+  border: 1px solid rgba(255, 222, 150, 0.24);
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-height: 320px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.menu-section .drink-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(255, 209, 132, 0.3);
+  border-color: rgba(255, 223, 143, 0.5);
+}
+
+.menu-section .drink-image {
+  width: 100%;
+  max-width: 220px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 22px;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.menu-section .drink-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fbe8a6;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.menu-section .drink-price {
+  color: #f7d68d;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
 .section-title {
   font-size: clamp(1.85rem, 2.6vw, 2.4rem);
   font-weight: 900;
@@ -1952,4 +1996,206 @@ body {
 .status-cancel {
   background: rgba(231, 93, 111, 0.16);
   color: #9d2a3d;
+}
+/* ===== HIỆU ỨNG CAFE SỮA CAO CẤP ===== */
+
+/* Màu chữ cafe sữa */
+body,
+p,
+span,
+label,
+.section-description,
+.menu-desc,
+.checkout-note {
+  color: #f5d7b2 !important;
+}
+
+/* Viền toàn bộ card */
+.section-card,
+.card-menu,
+.drink-card,
+.cart-item,
+.checkout-section,
+.cart-section {
+  border: 2px solid #c89b6d !important;
+  box-shadow:
+    0 0 12px rgba(255, 200, 140, 0.25),
+    0 0 30px rgba(120, 70, 30, 0.18);
+}
+
+/* Hover nổi bật */
+.card-menu:hover,
+.drink-card:hover,
+.cart-item:hover {
+  border-color: #ffd29b !important;
+  box-shadow:
+    0 0 18px rgba(255, 215, 160, 0.45),
+    0 0 40px rgba(255, 180, 90, 0.25);
+}
+
+/* Tiêu đề màu cafe sữa */
+.hero-title,
+.section-title,
+.card-menu h5,
+.drink-name {
+  color: #ffe0b8 !important;
+  text-shadow: 0 2px 10px rgba(255, 210, 150, 0.35);
+}
+
+/* Giá nổi bật */
+.price-badge,
+.drink-price,
+.cart-total {
+  border: 2px solid #fff1d6 !important;
+  box-shadow: 0 0 20px rgba(255, 210, 120, 0.35);
+}
+
+/* Nút đẹp hơn */
+.btn-add,
+.btn-checkout,
+.btn-hero {
+  border: 2px solid #ffe3b8 !important;
+  box-shadow:
+    0 0 15px rgba(255, 210, 120, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.btn-add:hover,
+.btn-checkout:hover,
+.btn-hero:hover {
+  transform: scale(1.05);
+  filter: brightness(1.05);
+}
+
+/* Input sang hơn */
+.form-input,
+.search-input,
+.filter-select,
+.table-select {
+  border: 2px solid #c89b6d !important;
+  color: #ffe4c4 !important;
+}
+
+/* Navbar nổi bật */
+.navbar-top {
+  border-bottom: 2px solid #e7bb88 !important;
+  box-shadow: 0 5px 25px rgba(255, 200, 120, 0.2);
+}
+
+/* Footer đẹp hơn */
+.footer-section {
+  border-top: 2px solid #c89b6d;
+  background: rgba(35, 20, 10, 0.95);
+}
+
+/* Hiệu ứng glow nhẹ toàn web */
+.section-card:hover,
+.hero-section:hover {
+  box-shadow:
+    0 0 25px rgba(255, 210, 120, 0.18),
+    0 0 60px rgba(120, 70, 30, 0.2);
+}
+/* ===== MENU ĐỒ UỐNG SIÊU CUỐN ===== */
+
+.card-menu {
+  border: 3px solid #d8a774 !important;
+  background: linear-gradient(145deg,
+      rgba(55, 32, 18, 0.98),
+      rgba(38, 22, 12, 0.96)) !important;
+
+  box-shadow:
+    0 0 15px rgba(255, 200, 120, 0.18),
+    0 0 35px rgba(120, 70, 30, 0.2);
+
+  overflow: hidden;
+}
+
+/* Hover card */
+.card-menu:hover {
+  transform: translateY(-10px) scale(1.03);
+  border-color: #ffd59c !important;
+
+  box-shadow:
+    0 0 25px rgba(255, 220, 160, 0.35),
+    0 0 50px rgba(255, 180, 90, 0.25);
+}
+
+/* Tên món */
+.card-menu h5,
+.drink-name {
+  color: #ffe3c2 !important;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-shadow: 0 2px 8px rgba(255, 210, 150, 0.3);
+}
+
+/* Giá tiền */
+.price-badge,
+.drink-price {
+  background: linear-gradient(135deg, #ffcf8a, #e9a85b) !important;
+  color: #4b2d16 !important;
+
+  border: 2px solid #fff0d5 !important;
+
+  box-shadow:
+    0 0 15px rgba(255, 210, 120, 0.35);
+}
+
+/* Mô tả menu */
+.menu-desc {
+  color: #f5d1a7 !important;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* Nút thêm vào giỏ */
+.btn-add {
+  background: linear-gradient(135deg, #f0b56b, #d8893f) !important;
+
+  color: #3d220f !important;
+
+  border: 2px solid #ffe4bd !important;
+
+  font-weight: 800;
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 0 15px rgba(255, 190, 90, 0.25);
+}
+
+/* Hover nút */
+.btn-add:hover {
+  transform: scale(1.05);
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 0 20px rgba(255, 210, 120, 0.4);
+}
+
+/* Ảnh menu */
+.drink-image {
+  border: 3px solid #e8bb87 !important;
+  border-radius: 20px;
+
+  box-shadow:
+    0 0 18px rgba(255, 210, 140, 0.22);
+
+  transition: 0.4s;
+}
+
+.drink-image:hover {
+  transform: scale(1.05);
+}
+/* Chữ tên món màu cafe nâu đen */
+.card-menu h5,
+.drink-name {
+  color: #3b2414 !important;
+  text-shadow: none !important;
+}
+
+/* Nếu nền tối thì thêm nền sáng nhẹ */
+.card-menu {
+  background: linear-gradient(145deg,
+      #f5d7b2,
+      #e6bf92) !important;
 }

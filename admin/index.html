@@ -152,12 +152,12 @@
   }
 
   .table thead {
-    background: #30251c;
-    border-bottom: 2px solid rgba(160, 109, 82, 0.4);
+    background: linear-gradient(135deg, rgba(183, 122, 95, 0.15), rgba(160, 109, 82, 0.1));
+    border-bottom: 2px solid rgba(183, 122, 95, 0.25);
   }
 
   .table th {
-    color: #e8d4b0;
+    color: #f4e5d3;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 0.85rem;
@@ -178,47 +178,8 @@
 
   .table td {
     padding: 16px;
-    color: #c19a73;
+    color: #f4e5d3;
     vertical-align: middle;
-  }
-
-  .item-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, rgba(120, 78, 52, 0.18), rgba(100, 65, 45, 0.14));
-    border: 1px solid rgba(120, 78, 52, 0.45);
-    color: #a87d5d;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    animation: popIn 0.3s ease;
-  }
-
-  .item-pill strong,
-  .item-pill span {
-    color: #7d5a43;
-  }
-
-  .item-pill .remove-item {
-    background: rgba(120, 78, 52, 0.25);
-    border: none;
-    color: #d4b38f;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    transition: all 0.2s ease;
-  }
-
-  .item-pill .remove-item:hover {
-    background: rgba(160, 109, 82, 0.45);
-    color: white;
   }
 
   .badge {
@@ -226,11 +187,6 @@
     padding: 6px 12px;
     border-radius: 8px;
     animation: popIn 0.4s ease;
-  }
-
-  .text-accent,
-  .table td strong.text-accent {
-    color: #7d5a43;
   }
 
   .status-badge {
@@ -501,7 +457,7 @@
   /* 💊 PILLS STYLES */
   .selected-items {
     margin: 16px 0;
-    min-height: 56px;
+    min-height: 40px;
     padding: 12px;
     background: rgba(72, 47, 34, 0.2);
     border-radius: 8px;
@@ -509,10 +465,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    align-items: flex-start;
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    align-items: center;
   }
 
   .item-pill {
@@ -527,8 +480,6 @@
     font-size: 0.9rem;
     font-weight: 600;
     animation: popIn 0.3s ease;
-    flex: 0 0 auto;
-    white-space: nowrap;
   }
 
   .item-pill .remove-item {
@@ -719,8 +670,6 @@
         <i class="fas fa-ban"></i> Hủy
       </button>
     </div>
-  </section>
-  <section class="section-card mb-4">
       <div id="loading" style="display: none; text-align: center; padding: 60px 20px;">
         <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
         <p class="text-muted" style="margin-top: 16px;">Đang tải dữ liệu...</p>
@@ -745,6 +694,7 @@
         <p class="text-muted" style="font-size: 1.1rem;"><strong>Chưa có đơn hàng nào</strong></p>
         <small class="text-muted">Nhấn "Tải Đơn Mới" để kiểm tra</small>
       </div>
+    </div>
   </section>
 </div>
 
@@ -760,7 +710,7 @@
     </div>
     <div class="footer-divider"></div>
     <div class="footer-bottom">
-      <p>&copy; 2026 Cafe Booking Admin. Tất cả quyền được bảo lưu.</p>
+      <p>&copy; 2024 Cafe Booking Admin. Tất cả quyền được bảo lưu.</p>
     </div>
   </div>
 </footer>
@@ -849,7 +799,6 @@ const API_RES = "https://69f9a6d9c509a40d3aa2efdc.mockapi.io/api/v1/reservations
 let tableMap = {};
 let allOrders = [];
 let currentFilter = 'all';
-let hideAllAfterLoad = false;
 
 // ================== INITIALIZATION ==================
 $(document).ready(function(){
@@ -933,17 +882,7 @@ function load(){
         }, {});
         
         allOrders = orders;
-        if (!['all', 'pending', 'done', 'cancel'].includes(currentFilter)) {
-            currentFilter = 'all';
-        }
-        
-        if (currentFilter === 'all') {
-            hideAllAfterLoad = true;
-            renderOrders([]);
-        } else {
-            hideAllAfterLoad = false;
-            filterByStatus(currentFilter);
-        }
+        renderOrders(orders);
         
         if (orders.length > 0) {
             showToast("✅ Dữ liệu đã được cập nhật!", "success", 2000);
@@ -982,12 +921,9 @@ function getTableName(id){
  */
 function filterByStatus(status) {
     currentFilter = status;
-    if (status !== 'all') {
-        hideAllAfterLoad = false;
-    }
     
+    // Update tab styles
     document.querySelectorAll('.status-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.id === `tab-${status}`);
         tab.style.background = 'transparent';
     });
     
@@ -1004,11 +940,7 @@ function filterByStatus(status) {
         }
     }
     
-    if (status === 'all' && hideAllAfterLoad) {
-        renderOrders([]);
-        return;
-    }
-    
+    // Filter and render
     let filtered = allOrders;
     if (status !== 'all') {
         filtered = allOrders.filter(o => o.status === status);
@@ -1031,19 +963,6 @@ function renderOrders(orders){
     if (orders.length === 0) {
         emptyState.style.display = "block";
         table.style.display = "none";
-        if (currentFilter === 'all' && hideAllAfterLoad) {
-            emptyState.innerHTML = `
-                <div class="empty-state-icon"><i class="fas fa-info-circle"></i></div>
-                <p style="color: #f4e5d3; font-weight: 700;"><strong>Tab Tất Cả hiện đang trống sau khi tải dữ liệu mới.</strong></p>
-                <small style="color: #d4a16a;">Các đơn cũ đã được phân vào tab trạng thái tương ứng.</small>
-            `;
-        } else {
-            emptyState.innerHTML = `
-                <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
-                <p class="text-muted"><strong>Chưa có đơn hàng nào</strong></p>
-                <small class="text-muted">Nhấn "Tải Đơn Mới" để kiểm tra</small>
-            `;
-        }
         return;
     }
 
@@ -1243,46 +1162,21 @@ function escapeHtml(text) {
  * Static drinks menu
  */
 const staticDrinks = [
-    { id: "affogato", name: "Affogato", price: 57000, image: "./img/affogato.jpg" },
-  { id: "americano", name: "Americano", price: 32000, image: "./img/americano.jpg" },
-  { id: "bacsieu", name: "Bạc Xỉu", price: 35000, image: "./img/bac-xiu.jpg" },
-  { id: "cacao-da", name: "Cacao Đá", price: 39000, image: "./img/cacao-da.jpg" },
-  { id: "cafe", name: "Cà Phê", price: 30000, image: "./img/cafe.jpg" },
-  { id: "cappuccino", name: "Cappuccino", price: 48000, image: "./img/cappuccino.jpg" },
-  { id: "cheesecake-cafe", name: "Cheesecake Cà Phê", price: 45000, image: "./img/cheesecake-cafe.png" },
-  { id: "chocolate-nong", name: "Chocolate Nóng", price: 42000, image: "./img/chocolate-nong.jpg" },
-  { id: "cold-brew", name: "Cold Brew", price: 52000, image: "./img/cold-brew.jpg" },
-  { id: "cookies-cream-da-xay", name: "Cookies & Cream Đá Xay", price: 56000, image: "./img/cookies-cream-da-xay.jpg" },
-  { id: "cupcake-cafe", name: "Cup Cake Cà Phê", price: 42000, image: "./img/cup-cake-cafe.png" },
-  { id: "cafe-cam", name: "Cà Phê Cam", price: 47000, image: "./img/cafe-cam.png" },
-  { id: "cafe-mocha", name: "Cà Phê Mocha", price: 49000, image: "./img/cafe-mocha.png" },
-  { id: "ca-phe-muoi", name: "Cà Phê Muối", price: 55000, image: "./img/cafe-muoi.jpg" },
-  { id: "ca-phe-sua-da", name: "Cà Phê Sữa Đá", price: 34000, image: "./img/cafe-sua-da.jpg" },
-  { id: "ca-phe-tiramisu", name: "Cà Phê Tiramisu", price: 52000, image: "./img/cafe-tiramisu.png" },
-  { id: "ca-phe-trung", name: "Cà Phê Trứng", price: 60000, image: "./img/cafe-trung.jpg" },
-  { id: "ca-phe-den", name: "Cà Phê Đen", price: 30000, image: "./img/cafe-den.jpg" },
-  { id: "espresso", name: "Espresso", price: 28000, image: "./img/espresso.jpg" },
-  { id: "macchiato", name: "Macchiato", price: 49000, image: "./img/macchiato.jpg" },
-  { id: "matcha-latte", name: "Matcha Latte", price: 52000, image: "./img/matcha-latte.jpg" },
-  { id: "mocha", name: "Mocha", price: 50000, image: "./img/mocha.jpg" },
-  { id: "mojito-chanh", name: "Mojito Chanh", price: 42000, image: "./img/mojito-chanh.jpg" },
-  { id: "oreo-da-xay", name: "Oreo Đá Xay", price: 56000, image: "./img/oreo-da-xay.jpg" },
-  { id: "sinh-to-bo", name: "Sinh Tố Bơ", price: 52000, image: "./img/sinh-to-bo.jpg" },
-  { id: "sinh-to-xoai", name: "Sinh Tố Xoài", price: 52000, image: "./img/sinh-to-xoai.jpg" },
-  { id: "soda-viet-quat", name: "Soda Việt Quất", price: 39000, image: "./img/soda-viet-quat.jpg" },
-  { id: "tra-chanh", name: "Trà Chanh", price: 32000, image: "./img/tra-chanh.jpg" },
-  { id: "tra-sua-cafe", name: "Trà Sữa Cà Phê", price: 41000, image: "./img/tra-sua-cafe.png" },
-  { id: "tra-sua-tran-chau", name: "Trà Sữa Trân Châu", price: 50000, image: "./img/tra-sua-tran-chau.jpg" },
-  { id: "tra-vai", name: "Trà Vải", price: 43000, image: "./img/tra-vai.jpg" },
-  { id: "tra-dao-cam-sa", name: "Trà Đào Cam Sả", price: 45000, image: "./img/tra-dao-cam-sa.jpg" },
-  { id: "tao-pho-cafe", name: "Tào Phớ Cà Phê", price: 44000, image: "./img/tao-pho-cafe.png" },
-  { id: "pudding-cafe", name: "Pudding Cà Phê", price: 38000, image: "./img/pudding-cafe.png" },
-  { id: "rau-cau-cafe", name: "Rau Câu Cà Phê", price: 36000, image: "./img/rau-cau-cafe.png" },
-  { id: "sua-lac-cafe", name: "Sữa Lắc Cà Phê", price: 43000, image: "./img/sua-lac-cafe.png" },
-  { id: "nuoc-ep", name: "Nước Ép", price: 40000, image: "./img/nuoc-ep.jpg" }
+    { id: "cheesecake-cafe", name: "Cheesecake Cà Phê", price: 45000, image: "../img/cheesecake-cafe.png" },
+    { id: "cupcake-cafe", name: "Cup Cake Cà Phê", price: 42000, image: "../img/cup-cake-cafe.png" },
+    { id: "cafe-cam", name: "Cà Phê Cam", price: 47000, image: "../img/cafe-cam.png" },
+    { id: "cafe-mocha", name: "Cà Phê Mocha", price: 49000, image: "../img/cafe-mocha.png" },
+    { id: "cafe-tiramisu", name: "Cà Phê Tiramisu", price: 52000, image: "../img/cafe-tiramisu.png" },
+    { id: "pudding-cafe", name: "Pudding Cà Phê", price: 38000, image: "../img/pudding-cafe.png" },
+    { id: "rau-cau-cafe", name: "Rau Câu Cà Phê", price: 36000, image: "../img/rau-cau-cafe.png" },
+    { id: "sua-lac-cafe", name: "Sữa Lắc Cà Phê", price: 43000, image: "../img/sua-lac-cafe.png" },
+    { id: "tra-sua-cafe", name: "Trà Sữa Cà Phê", price: 41000, image: "../img/tra-sua-cafe.png" },
+    { id: "tao-pho-cafe", name: "Tào Phớ Cà Phê", price: 44000, image: "../img/tao-pho-cafe.png" },
+    { id: "bac-siu", name: "Bạc Xỉu", price: 35000, image: "../img/bac-xiu.jpg" },
+    { id: "nuoc-ep", name: "Nước Ép", price: 40000, image: "../img/nuoc-ep.jpg" }
 ];
 
-const imageBasePath = '../img/';
+const imageBasePath = window.location.pathname.includes('/admin/') ? '../img/' : 'img/';
 staticDrinks.forEach(drink => {
     drink.image = drink.image.replace(/^((?:\.\.\/|\.\/))?img\//, imageBasePath);
 });
@@ -1514,16 +1408,7 @@ function createOrder() {
     })
     .then(data => {
         console.log("✅ Đơn được tạo thành công trên API:", data);
-        showToast(`✅ Tạo đơn thành công! (#${data.id || '---'})`, "success", 3000);
-        
-        const createdOrder = {
-            ...orderData,
-            id: data.id || `api_${Date.now()}`,
-            createdAt: data.createdAt || new Date().toISOString()
-        };
-        allOrders = [createdOrder, ...allOrders.filter(o => o.id !== createdOrder.id)];
-        currentFilter = 'pending';
-        filterByStatus('pending');
+        showToast(`✅ Tạo đơn thành công! (#${data.id})`, "success", 3000);
         
         // Clear form
         document.getElementById("customerName").value = "";
@@ -1531,6 +1416,9 @@ function createOrder() {
         document.getElementById("customerTable").value = "";
         selectedDrinks = {};
         updateDrinksUI();
+        
+        // Reload orders
+        setTimeout(() => load(), 1500);
     })
     .catch(error => {
         console.error("❌ Lỗi tạo đơn:", error.message);
@@ -1560,11 +1448,8 @@ function createOrder() {
             };
             localOrders.push(newOrder);
             localStorage.setItem("cafe_orders", JSON.stringify(localOrders));
-            allOrders = [newOrder, ...allOrders.filter(o => o.id !== newOrder.id)];
-            currentFilter = 'pending';
-            filterByStatus('pending');
             
-            showToast(`✅ Tạo đơn thành công! (lưu cục bộ)`, "success", 3000);
+            showToast(`✅ Đơn đã được lưu cục bộ! (API không khả dụng)`, "success", 3000);
             
             // Clear form
             document.getElementById("customerName").value = "";
@@ -1572,6 +1457,9 @@ function createOrder() {
             document.getElementById("customerTable").value = "";
             selectedDrinks = {};
             updateDrinksUI();
+            
+            // Show saved orders
+            setTimeout(() => load(), 1500);
         } else {
             showToast("❌ Lỗi: " + error.message, "error");
         }
