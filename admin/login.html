@@ -102,7 +102,7 @@
       try {
         const session = JSON.parse(sessionData);
         if (session && session.username) {
-          window.location.href = 'index.html';
+          window.location.href = 'admin.html';
         }
       } catch (err) {
         localStorage.removeItem('adminSession');
@@ -144,7 +144,7 @@
 
       if (username === defaultAdminUser.username && password === defaultAdminUser.password) {
         localStorage.setItem('adminSession', JSON.stringify({ username }));
-        window.location.href = 'index.html';
+        window.location.href = 'admin.html';
       } else {
         showValidation(passwordInput, 'Tên đăng nhập hoặc mật khẩu không đúng.');
       }
