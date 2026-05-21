@@ -1,0 +1,1585 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Quản lý đơn hàng - Cafe Booking Admin">
+<title>🔧 Admin - Cafe Booking</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  body {
+    background: linear-gradient(135deg, #2b1c13 0%, #392718 45%, #271b12 100%);
+    min-height: 100vh;
+  }
+
+  .navbar-top {
+    background: linear-gradient(135deg, rgba(84, 52, 31, 0.95), rgba(61, 39, 28, 0.96));
+    box-shadow: 0 10px 30px rgba(58, 36, 24, 0.3);
+    border-bottom: 3px solid rgba(183, 122, 95, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .navbar-top .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: -0.02em;
+    animation: slideInLeft 0.6s ease;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(183, 122, 95, 0.2);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(183, 122, 95, 0.3);
+    animation: slideInRight 0.6s ease;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid white;
+  }
+
+  .nav-link {
+    color: white !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link:hover {
+    background: rgba(196, 136, 102, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .page-header {
+    background: rgba(61, 41, 28, 0.9);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+    border: 2px solid rgba(183, 122, 95, 0.25);
+    animation: fadeInDown 0.8s ease;
+  }
+
+  .page-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #d4a16a;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .page-header p {
+    color: #d0b59a;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .section-card {
+    background: rgba(63, 41, 29, 0.92);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(172, 110, 78, 0.2);
+    animation: fadeInUp 0.8s ease;
+    transition: all 0.3s ease;
+  }
+
+  .section-card:hover {
+    box-shadow: 0 15px 40px rgba(119, 77, 55, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .btn-refresh {
+    background: linear-gradient(135deg, #b67557, #d49b7e) !important;
+    border: none;
+    color: #3b2a21;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(119, 77, 55, 0.25);
+  }
+
+  .btn-refresh:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(119, 77, 55, 0.35);
+    background: linear-gradient(135deg, #d49b7e, #b67557) !important;
+  }
+
+  .btn-refresh:active {
+    transform: translateY(-1px);
+  }
+
+  .table thead {
+    background: #30251c;
+    border-bottom: 2px solid rgba(160, 109, 82, 0.4);
+  }
+
+  .table th {
+    color: #e8d4b0;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 16px;
+  }
+
+  .table tbody tr {
+    border-bottom: 1px solid rgba(183, 122, 95, 0.12);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .table tbody tr:hover {
+    background: rgba(183, 122, 95, 0.08);
+    transform: scale(1.01);
+  }
+
+  .table td {
+    padding: 16px;
+    color: #c19a73;
+    vertical-align: middle;
+  }
+
+  .item-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(120, 78, 52, 0.18), rgba(100, 65, 45, 0.14));
+    border: 1px solid rgba(120, 78, 52, 0.45);
+    color: #a87d5d;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    animation: popIn 0.3s ease;
+  }
+
+  .item-pill strong,
+  .item-pill span {
+    color: #7d5a43;
+  }
+
+  .item-pill .remove-item {
+    background: rgba(120, 78, 52, 0.25);
+    border: none;
+    color: #d4b38f;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+  }
+
+  .item-pill .remove-item:hover {
+    background: rgba(160, 109, 82, 0.45);
+    color: white;
+  }
+
+  .badge {
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    animation: popIn 0.4s ease;
+  }
+
+  .text-accent,
+  .table td strong.text-accent {
+    color: #7d5a43;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    animation: popIn 0.4s ease;
+  }
+
+  .status-pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ff9800;
+    border: 1px solid rgba(255, 152, 0, 0.3);
+  }
+
+  .status-done {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+    border: 1px solid rgba(76, 175, 80, 0.3);
+  }
+
+  .status-cancel {
+    background: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid rgba(244, 67, 54, 0.3);
+  }
+
+  .btn-success, .btn-danger {
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-success {
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+  }
+
+  .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+    background: linear-gradient(135deg, #66bb6a, #4caf50);
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #f44336, #ef5350);
+  }
+
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(244, 67, 54, 0.3);
+    background: linear-gradient(135deg, #ef5350, #f44336);
+  }
+
+  .loading-spinner {
+    font-size: 3rem;
+    color: #b95f4d;
+    animation: spin 1s linear infinite;
+  }
+
+  .text-accent {
+    color: #b95f4d;
+    font-weight: 800;
+  }
+
+  .footer-section {
+    background: linear-gradient(135deg, #3b2a21, #5a3a27);
+    color: white;
+    margin-top: 60px;
+    padding: 40px 0 20px;
+    border-top: 3px solid rgba(183, 122, 95, 0.3);
+  }
+
+  .footer-brand {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #d4a16a;
+    margin-bottom: 8px;
+  }
+
+  .footer-text {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+  .footer-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+  }
+
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+
+  .toast-message {
+    background: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideInRight 0.4s ease;
+    border-left: 4px solid;
+  }
+
+  .toast-success {
+    border-left-color: #4caf50;
+  }
+
+  .toast-success .toast-icon {
+    color: #4caf50;
+  }
+
+  .toast-error {
+    border-left-color: #f44336;
+  }
+
+  .toast-error .toast-icon {
+    color: #f44336;
+  }
+
+  .toast-icon {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .empty-state-icon {
+    font-size: 4rem;
+    color: rgba(185, 95, 77, 0.3);
+    margin-bottom: 16px;
+  }
+
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* 🎴 DRINK SELECTOR STYLES */
+  .drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .drink-card {
+    background: linear-gradient(135deg, rgba(72, 47, 34, 0.3), rgba(61, 39, 28, 0.25));
+    border: 2px solid rgba(172, 110, 78, 0.25);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+  }
+
+  .drink-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(196, 136, 102, 0.5);
+    box-shadow: 0 8px 20px rgba(119, 77, 55, 0.15);
+  }
+
+  .drink-card.selected {
+    background: rgba(183, 122, 95, 0.25);
+    border-color: rgba(196, 136, 102, 0.7);
+    box-shadow: 0 0 0 3px rgba(183, 122, 95, 0.1);
+  }
+
+  .drink-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 auto 8px;
+  }
+
+  .drink-name {
+    font-weight: 700;
+    color: #f4e5d3;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  .drink-price {
+    color: #d4a16a;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .drink-qty-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .drink-qty-btn {
+    background: rgba(183, 122, 95, 0.25);
+    border: none;
+    color: #d4a16a;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+
+  .drink-qty-btn:hover {
+    background: rgba(183, 122, 95, 0.45);
+  }
+
+  .drink-qty-display {
+    font-weight: 700;
+    color: #f4e5d3;
+    min-width: 30px;
+    text-align: center;
+  }
+
+  /* 💊 PILLS STYLES */
+  .selected-items {
+    margin: 16px 0;
+    min-height: 56px;
+    padding: 12px;
+    background: rgba(72, 47, 34, 0.2);
+    border-radius: 8px;
+    border: 1px dashed rgba(172, 110, 78, 0.3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .item-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(183, 122, 95, 0.35), rgba(160, 109, 82, 0.2));
+    border: 1px solid rgba(183, 122, 95, 0.4);
+    color: #f4e5d3;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    animation: popIn 0.3s ease;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .item-pill .remove-item {
+    background: rgba(183, 122, 95, 0.35);
+    border: none;
+    color: #d4a16a;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+  }
+
+  .item-pill .remove-item:hover {
+    background: rgba(183, 122, 95, 0.6);
+    color: white;
+  }
+
+  .empty-pills {
+    color: #999;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-top .container {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .page-header {
+      padding: 20px;
+    }
+
+    .page-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .section-card {
+      padding: 16px;
+    }
+
+    .table {
+      font-size: 0.85rem;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.75rem;
+    }
+
+    .user-info {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+
+    .toast-container {
+      left: 10px;
+      right: 10px;
+      top: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar-top">
+  <div class="container">
+    <div class="navbar-brand"><i class="fas fa-cogs"></i> Admin Panel</div>
+    <div class="navbar-links">
+      <div class="user-info">
+        <div class="user-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <div id="username-display" style="font-weight: 600;">Admin</div>
+          <small style="opacity: 0.8;">Online</small>
+        </div>
+      </div>
+      <button onclick="logout()" class="nav-link" title="Đăng xuất">
+        <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+      </button>
+      <a href="../index.html" class="nav-link" title="Quay lại trang chính">
+        <i class="fas fa-home"></i> Trang Chính
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4" style="margin-top: 20px; margin-bottom: 40px;">
+  <section class="page-header">
+    <h2>👨‍💼 Quản Lý Đơn Hàng</h2>
+    <p style="color: #f4e5d3;">Xem các đơn hàng mới, cập nhật trạng thái và quản lý đặt bàn trong giao diện admin.</p>
+  </section>
+
+  <section class="section-card mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+      <div>
+        <p class="text-muted mb-0">
+          <i class="fas fa-info-circle"></i> Nhấn "🔄 Tải Đơn Mới" để lấy dữ liệu đơn hàng mới nhất từ hệ thống.
+        </p>
+      </div>
+      <button onclick="load()" class="btn btn-dark btn-refresh" title="Tải lại danh sách đơn hàng">
+        <i class="fas fa-redo"></i> Tải Đơn Mới
+      </button>
+    </div>
+  </section>
+
+  <!-- 📝 CREATE ORDER SECTION -->
+  <section class="section-card mb-4">
+    <h4 style="color: #d4a16a; margin-bottom: 20px; font-weight: 800;">
+      <i class="fas fa-plus-circle"></i> Tạo Đơn Hàng Mới
+    </h4>
+    
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label class="form-label" style="color: #f4e5d3; font-weight: 600;">👤 Tên Khách</label>
+        <input type="text" id="customerName" class="form-control" placeholder="Nhập tên khách" style="border: 1px solid rgba(172, 110, 78, 0.3); border-radius: 8px; background: rgba(43, 27, 18, 0.9); color: #f4e5d3;">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" style="color: #f4e5d3; font-weight: 600;">📞 Số Điện Thoại</label>
+        <input type="tel" id="customerPhone" class="form-control" placeholder="Nhập SĐT" style="border: 1px solid rgba(172, 110, 78, 0.3); border-radius: 8px; background: rgba(43, 27, 18, 0.9); color: #f4e5d3;">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" style="color: #f4e5d3; font-weight: 600;">🏠 Địa Chỉ/Bàn</label>
+        <input type="text" id="customerTable" class="form-control" placeholder="Nhập bàn/địa chỉ" style="border: 1px solid rgba(172, 110, 78, 0.3); border-radius: 8px; background: rgba(43, 27, 18, 0.9); color: #f4e5d3;">
+      </div>
+      <div class="col-md-3" style="display: flex; align-items: flex-end;">
+        <button onclick="createOrder()" class="btn btn-refresh w-100" style="background: linear-gradient(135deg, #c08a58, #d4a16a) !important; color: #3b2a21 !important;">
+          <i class="fas fa-check"></i> Tạo Đơn
+        </button>
+      </div>
+    </div>
+
+    <hr style="border-color: rgba(172, 110, 78, 0.2);">
+
+    <div>
+      <label style="color: #f4e5d3; font-weight: 600; display: block; margin-bottom: 12px;">
+        <i class="fas fa-coffee"></i> Chọn Đồ Uống (Click để thêm, Double-click để xóa)
+      </label>
+      <div class="drinks-grid" id="drinksGrid">
+        <!-- Drinks will be loaded here -->
+      </div>
+    </div>
+
+    <div style="margin-top: 16px;">
+      <label style="color: #f4e5d3; font-weight: 600; display: block; margin-bottom: 8px;">
+        <i class="fas fa-list"></i> Danh Sách Đã Chọn:
+      </label>
+      <div class="selected-items" id="selectedItems">
+        <span class="empty-pills">Chưa chọn đồ uống nào</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-card mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+      <div>
+        <p class="text-muted mb-0">
+          <i class="fas fa-info-circle"></i> Nhấn "🔄 Tải Đơn Mới" để lấy dữ liệu đơn hàng mới nhất từ hệ thống.
+        </p>
+      </div>
+      <button onclick="load()" class="btn btn-dark btn-refresh" title="Tải lại danh sách đơn hàng">
+        <i class="fas fa-redo"></i> Tải Đơn Mới
+      </button>
+    </div>
+  </section>
+
+  <!-- 📋 STATUS TABS -->
+  <section class="section-card mb-4">
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;">
+      <button onclick="filterByStatus('all')" class="btn status-tab active" id="tab-all" style="border: 2px solid #d4a16a; background: rgba(212, 161, 106, 0.2); color: #d4a16a; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+        <i class="fas fa-list"></i> Tất Cả
+      </button>
+      <button onclick="filterByStatus('pending')" class="btn status-tab" id="tab-pending" style="border: 2px solid #ff9800; background: transparent; color: #ff9800; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+        <i class="fas fa-hourglass-half"></i> Chờ Xác Nhận
+      </button>
+      <button onclick="filterByStatus('done')" class="btn status-tab" id="tab-done" style="border: 2px solid #4caf50; background: transparent; color: #4caf50; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+        <i class="fas fa-check-circle"></i> Hoàn Thành
+      </button>
+      <button onclick="filterByStatus('cancel')" class="btn status-tab" id="tab-cancel" style="border: 2px solid #f44336; background: transparent; color: #f44336; font-weight: 700; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+        <i class="fas fa-ban"></i> Hủy
+      </button>
+    </div>
+  </section>
+  <section class="section-card mb-4">
+      <div id="loading" style="display: none; text-align: center; padding: 60px 20px;">
+        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
+        <p class="text-muted" style="margin-top: 16px;">Đang tải dữ liệu...</p>
+      </div>
+      <table class="table table-borderless align-middle" id="ordersTable" style="display: none; margin: 0;">
+        <thead>
+          <tr>
+            <th style="width: 15%;"><i class="fas fa-user"></i> Tên Khách</th>
+            <th style="width: 12%;"><i class="fas fa-phone"></i> SĐT</th>
+            <th style="width: 12%;"><i class="fas fa-map-marker-alt"></i> Địa Chỉ</th>
+            <th style="width: 12%;"><i class="fas fa-chair"></i> Bàn</th>
+            <th style="width: 25%;"><i class="fas fa-utensils"></i> Món Ăn</th>
+            <th style="width: 12%;"><i class="fas fa-tag"></i> Giá Bán</th>
+            <th style="width: 12%;"><i class="fas fa-info-circle"></i> Trạng Thái</th>
+            <th style="width: 12%;" class="text-end"><i class="fas fa-cogs"></i> Hành Động</th>
+          </tr>
+        </thead>
+        <tbody id="list"></tbody>
+      </table>
+      <div id="emptyState" style="text-align: center; padding: 80px 20px;">
+        <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+        <p class="text-muted" style="font-size: 1.1rem;"><strong>Chưa có đơn hàng nào</strong></p>
+        <small class="text-muted">Nhấn "Tải Đơn Mới" để kiểm tra</small>
+      </div>
+  </section>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<footer class="footer-section">
+  <div class="container">
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">☕ Cafe Booking</div>
+        <p class="footer-text">Quản lý đơn hàng cafe hiệu quả</p>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Cafe Booking Admin. Tất cả quyền được bảo lưu.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/**
+ * 🍵 CAFE BOOKING - ADMIN PANEL
+ * Order management system with authentication
+ */
+
+// ================== AUTHENTICATION ==================
+/**
+ * Check session on page load
+ */
+const ADMIN_USERNAME = "admin";
+
+function getAdminSession() {
+    const sessionData = localStorage.getItem("adminSession");
+    if (!sessionData) return null;
+    try {
+        const session = JSON.parse(sessionData);
+        return session && typeof session.username === "string" ? session : null;
+    } catch (e) {
+        console.error("❌ Invalid session data", e);
+        return null;
+    }
+}
+
+function isAdminUser() {
+    const session = getAdminSession();
+    return session && session.username.toLowerCase() === ADMIN_USERNAME;
+}
+
+function checkSession() {
+    const session = getAdminSession();
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    document.getElementById("username-display").textContent = session.username || "Admin";
+    console.log("✅ Session valid for user:", session.username);
+}
+
+/**
+ * Logout and clear session
+ */
+function logout() {
+    if (!confirm("Bạn chắc chắn muốn đăng xuất?")) return;
+    
+    localStorage.removeItem("adminSession");
+    showToast("Đã đăng xuất thành công!", "success");
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 1500);
+}
+
+// ================== TOAST NOTIFICATIONS ==================
+/**
+ * Show toast notification
+ */
+function showToast(message, type = "success", duration = 3000) {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast-message toast-${type}`;
+    
+    const icon = type === "success" ? "fas fa-check-circle" : "fas fa-exclamation-circle";
+    toast.innerHTML = `
+        <i class="fas ${icon.split(' ')[1]} toast-icon"></i>
+        <span>${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = "slideInRight 0.4s ease reverse";
+        setTimeout(() => toast.remove(), 400);
+    }, duration);
+}
+
+// ================== API ENDPOINTS ==================
+const API_TABLE = "https://69f9a6d9c509a40d3aa2efdc.mockapi.io/api/v1/tables";
+const API_RES = "https://69f9a6d9c509a40d3aa2efdc.mockapi.io/api/v1/reservations";
+
+// ================== STATE ==================
+let tableMap = {};
+let allOrders = [];
+let currentFilter = 'all';
+let hideAllAfterLoad = false;
+
+// ================== INITIALIZATION ==================
+$(document).ready(function(){
+    checkSession();
+    loadDrinksGrid();
+    load();
+});
+
+// ================== DATA LOADING ==================
+/**
+ * Load orders and tables data
+ */
+function load(){
+    const loading = document.getElementById("loading");
+    const emptyState = document.getElementById("emptyState");
+    const table = document.getElementById("ordersTable");
+    
+    loading.style.display = "block";
+    emptyState.style.display = "none";
+    table.style.display = "none";
+
+    // Check API availability by testing tables endpoint first
+    let apiAvailable = false;
+    const checkApiFirst = fetch(API_TABLE).then(r => {
+        apiAvailable = r.ok;
+        return apiAvailable;
+    }).catch(() => {
+        apiAvailable = false;
+        return false;
+    });
+
+    // Load orders and tables with API fallback
+    checkApiFirst.then((apiOk) => {
+        // If API is not available, skip reservations fetch and go straight to localStorage
+        if (!apiOk) {
+            const localOrders = JSON.parse(localStorage.getItem("cafe_orders") || "[]");
+            console.log("⚠️ API not available - using localStorage for orders");
+            return Promise.resolve([localOrders, []]);
+        }
+
+        return Promise.all([
+            fetch(API_RES).then(r => {
+                if(!r.ok) {
+                    // API is available but reservations endpoint is not; use localStorage
+                    const localOrders = JSON.parse(localStorage.getItem("cafe_orders") || "[]");
+                    return localOrders;
+                }
+                return r.json();
+            }).catch(err => {
+                const localOrders = JSON.parse(localStorage.getItem("cafe_orders") || "[]");
+                return localOrders;
+            }),
+            fetch(API_TABLE).then(r => {
+                if(!r.ok) {
+                    return [];
+                }
+                return r.json();
+            }).catch(() => [])
+        ]);
+    }).then(([orders, tables]) => 
+        fetch(API_TABLE).then(r => {
+            if(!r.ok) {
+                console.warn("⚠️ API Tables returned:", r.status, "- Using empty data");
+                return [];
+            }
+            return r.json();
+        }).catch(err => {
+            console.warn("⚠️ Could not fetch tables, using fallback:", err.message);
+            return [];
+        })
+    )
+    .then(([orders, tables])=>{
+        console.log("✅ Data loaded - Orders:", orders.length, "Tables:", tables.length);
+        if (!orders || orders.length === 0) {
+            console.log("ℹ️ No orders found - this is normal on first load");
+        }
+        
+        tableMap = tables.reduce((map, t) => {
+            map[t.id] = t.name;
+            return map;
+        }, {});
+        
+        allOrders = orders;
+        if (!['all', 'pending', 'done', 'cancel'].includes(currentFilter)) {
+            currentFilter = 'all';
+        }
+        
+        if (currentFilter === 'all') {
+            hideAllAfterLoad = true;
+            renderOrders([]);
+        } else {
+            hideAllAfterLoad = false;
+            filterByStatus(currentFilter);
+        }
+        
+        if (orders.length > 0) {
+            showToast("✅ Dữ liệu đã được cập nhật!", "success", 2000);
+        }
+    })
+    .catch((error)=> {
+        console.error("❌ Unexpected error:", error);
+        loading.style.display = "none";
+        emptyState.innerHTML = `
+            <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+            <p class="text-muted"><strong>Chưa có đơn hàng</strong></p>
+            <small class="text-muted">Nhấn "Tạo Đơn" hoặc "Tải Đơn Mới" để bắt đầu</small>
+        `;
+        emptyState.style.display = "block";
+    });
+}
+
+// ================== RENDERING ==================
+/**
+ * Get table name by ID
+ */
+function getTableName(id){
+    // If id is just a number 1-10, add "Bàn " prefix
+    if (/^\d+$/.test(id) && parseInt(id) >= 1 && parseInt(id) <= 10) {
+        return "Bàn " + id;
+    }
+    // If it already has "Bàn " prefix, return as is
+    if (String(id).startsWith("Bàn ")) {
+        return id;
+    }
+    return tableMap[id] || id || "N/A";
+}
+
+/**
+ * Filter orders by status
+ */
+function filterByStatus(status) {
+    currentFilter = status;
+    if (status !== 'all') {
+        hideAllAfterLoad = false;
+    }
+    
+    document.querySelectorAll('.status-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.id === `tab-${status}`);
+        tab.style.background = 'transparent';
+    });
+    
+    const activeTab = document.getElementById(`tab-${status}`);
+    if (activeTab) {
+        if (status === 'all') {
+            activeTab.style.background = 'rgba(212, 161, 106, 0.2)';
+        } else if (status === 'pending') {
+            activeTab.style.background = 'rgba(255, 152, 0, 0.15)';
+        } else if (status === 'done') {
+            activeTab.style.background = 'rgba(76, 175, 80, 0.15)';
+        } else if (status === 'cancel') {
+            activeTab.style.background = 'rgba(244, 67, 54, 0.15)';
+        }
+    }
+    
+    if (status === 'all' && hideAllAfterLoad) {
+        renderOrders([]);
+        return;
+    }
+    
+    let filtered = allOrders;
+    if (status !== 'all') {
+        filtered = allOrders.filter(o => o.status === status);
+    }
+    
+    renderOrders(filtered);
+}
+
+/**
+ * Render orders to table
+ */
+function renderOrders(orders){
+    const loading = document.getElementById("loading");
+    const emptyState = document.getElementById("emptyState");
+    const table = document.getElementById("ordersTable");
+    const listElement = document.getElementById("list");
+
+    loading.style.display = "none";
+
+    if (orders.length === 0) {
+        emptyState.style.display = "block";
+        table.style.display = "none";
+        if (currentFilter === 'all' && hideAllAfterLoad) {
+            emptyState.innerHTML = `
+                <div class="empty-state-icon"><i class="fas fa-info-circle"></i></div>
+                <p style="color: #f4e5d3; font-weight: 700;"><strong>Tab Tất Cả hiện đang trống sau khi tải dữ liệu mới.</strong></p>
+                <small style="color: #d4a16a;">Các đơn cũ đã được phân vào tab trạng thái tương ứng.</small>
+            `;
+        } else {
+            emptyState.innerHTML = `
+                <div class="empty-state-icon"><i class="fas fa-inbox"></i></div>
+                <p class="text-muted"><strong>Chưa có đơn hàng nào</strong></p>
+                <small class="text-muted">Nhấn "Tải Đơn Mới" để kiểm tra</small>
+            `;
+        }
+        return;
+    }
+
+    let html = "";
+
+    orders.forEach((o, idx)=>{
+        let itemsPills = "";
+        let total = 0;
+
+        if(o.items && o.items.length){
+            itemsPills = o.items.map(i => {
+                let price = Number(i.price) || 0;
+                let qty = Number(i.qty) || 0;
+                total += price * qty;
+                return `<span class="item-pill" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(212, 134, 79, 0.2); border: 1px solid rgba(212, 134, 79, 0.4); color: #fef5e7; padding: 6px 12px; border-radius: 16px; font-size: 0.85rem; font-weight: 600; margin: 4px 4px 4px 0;">
+                  <strong>${escapeHtml(i.name)}</strong> x${qty} <span style="color: #ffc966;">= ${(price * qty).toLocaleString('vi-VN')}₫</span>
+                </span>`;
+            }).join("");
+        }
+
+        const animationDelay = (idx * 0.1) + "s";
+
+        html += `
+            <tr style="animation-delay: ${animationDelay};">
+              <td><strong>${escapeHtml(o.name)}</strong></td>
+              <td><a href="tel:${escapeHtml(o.phone)}" style="color: #b95f4d; text-decoration: none;">${escapeHtml(o.phone)}</a></td>
+              <td>${escapeHtml(o.address || '-')}</td>
+              <td><span class="badge bg-light text-dark"><i class="fas fa-chair"></i> ${escapeHtml(getTableName(o.tableId))}</span></td>
+              <td>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                  ${itemsPills || "<small style='color: #999;'>-</small>"}
+                </div>
+              </td>
+              <td><strong class="text-accent">${total ? total.toLocaleString('vi-VN') + "₫" : "-"}</strong></td>
+              <td>${formatStatus(o.status)}</td>
+              <td class="text-end">
+                ${isAdminUser() ? `
+                <button onclick="updateOrder('${o.id}','done')" class="btn btn-success btn-sm me-2" title="Hoàn thành">
+                  <i class="fas fa-check"></i> <span class="d-none d-md-inline">OK</span>
+                </button>
+                <button onclick="updateOrder('${o.id}','cancel')" class="btn btn-danger btn-sm" title="Hủy">
+                  <i class="fas fa-times"></i> <span class="d-none d-md-inline">Hủy</span>
+                </button>
+                ` : `<span class="text-muted">Chỉ admin</span>`}
+              </td>
+            </tr>`;
+    });
+
+    listElement.innerHTML = html;
+    emptyState.style.display = "none";
+    table.style.display = "table";
+}
+
+/**
+ * Format status badge
+ */
+function formatStatus(status){
+    const badges = {
+        pending: '<span class="status-badge status-pending"><i class="fas fa-hourglass-half"></i> Chờ xác nhận</span>',
+        done: '<span class="status-badge status-done"><i class="fas fa-check-circle"></i> Hoàn thành</span>',
+        cancel: '<span class="status-badge status-cancel"><i class="fas fa-ban"></i> Hủy</span>'
+    };
+    return badges[status] || `<span class="status-badge">${status}</span>`;
+}
+
+// ================== ACTIONS ==================
+/**
+ * Update order status
+ */
+function updateOrder(id, status){
+    if (!isAdminUser()) {
+        showToast("❌ Chỉ admin mới được chỉnh sửa trạng thái đơn hàng.", "error");
+        return;
+    }
+
+    const statusText = status === "done" ? "hoàn thành" : "hủy";
+    if (!confirm(`Bạn chắc chắn muốn cập nhật đơn này thành "${statusText}"?`)) return;
+
+    const statusDisplay = status === "done" ? "✅ Hoàn Thành" : "❌ Hủy";
+    
+    // Check if this is a local order (not on API)
+    if (id.startsWith("local_")) {
+        console.log("🏠 Updating local order:", id);
+        
+        const localOrders = JSON.parse(localStorage.getItem("cafe_orders") || "[]");
+        let found = false;
+        
+        localOrders.forEach(order => {
+            if (order.id === id) {
+                order.status = status;
+                found = true;
+            }
+        });
+        
+        if (found) {
+            localStorage.setItem("cafe_orders", JSON.stringify(localOrders));
+            showToast(`Cập nhật thành công: ${statusDisplay}`, "success");
+            load();
+        } else {
+            showToast("❌ Không tìm thấy đơn hàng để cập nhật", "error");
+        }
+        return; // Don't call API for local orders
+    }
+    
+    // For API orders, proceed with fetch
+    const updateData = { status };
+    console.log("📤 Updating API order:", id, "with data:", updateData);
+
+    fetch(API_RES + "/" + id,{ 
+        method:"PUT",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(updateData)
+    })
+    .then(r => {
+        console.log("📥 Update response status:", r.status);
+        
+        return r.text().then(text => {
+            console.log("📥 Update response body:", text);
+            try {
+                const json = JSON.parse(text);
+                if (!r.ok) {
+                    if (r.status === 400) {
+                        console.error("❌ HTTP 400 - Invalid update format");
+                        throw new Error("UPDATE_FORMAT_ERROR");
+                    }
+                    if (r.status === 404) {
+                        console.warn("⚠️ Order not found (404)");
+                        throw new Error("ORDER_NOT_FOUND");
+                    }
+                    throw new Error(`HTTP ${r.status}`);
+                }
+                return json;
+            } catch (e) {
+                if (!r.ok) throw e;
+                return {}; // Success even if no JSON response
+            }
+        });
+    })
+    .then(data => {
+        console.log("✅ Order updated on API:", id, status, data);
+        showToast(`Cập nhật thành công: ${statusDisplay}`, "success");
+        
+        // Update allOrders
+        allOrders = allOrders.map(o => o.id === id ? {...o, status} : o);
+        filterByStatus(currentFilter);
+    })
+    .catch(error => {
+        console.error("❌ Update error:", error.message);
+        
+        // If API error, update in localStorage
+        if (error.message.includes("UPDATE_FORMAT_ERROR") || 
+            error.message.includes("ORDER_NOT_FOUND") ||
+            error.message.includes("HTTP")) {
+            
+            console.warn("⚠️ Updating in localStorage");
+            const localOrders = JSON.parse(localStorage.getItem("cafe_orders") || "[]");
+            
+            // Find and update order
+            let found = false;
+            localOrders.forEach(order => {
+                if (order.id === id || order.id === "local_" + id) {
+                    order.status = status;
+                    found = true;
+                }
+            });
+            
+            if (found) {
+                localStorage.setItem("cafe_orders", JSON.stringify(localOrders));
+                showToast(`Cập nhật thành công (cục bộ): ${statusDisplay}`, "success");
+                load();
+            } else {
+                showToast("❌ Không tìm thấy đơn hàng để cập nhật", "error");
+            }
+        } else {
+            showToast("❌ Lỗi cập nhật: " + error.message, "error");
+        }
+    });
+}
+
+// ================== UTILITIES ==================
+/**
+ * Escape HTML special characters
+ */
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return String(text).replace(/[&<>"']/g, char => map[char]);
+}
+
+// ================== CREATE ORDER FUNCTIONALITY ==================
+/**
+ * Static drinks menu
+ */
+const staticDrinks = [
+    { id: "affogato", name: "Affogato", price: 57000, image: "./img/affogato.jpg" },
+  { id: "americano", name: "Americano", price: 32000, image: "./img/americano.jpg" },
+  { id: "bacsieu", name: "Bạc Xỉu", price: 35000, image: "./img/bac-xiu.jpg" },
+  { id: "cacao-da", name: "Cacao Đá", price: 39000, image: "./img/cacao-da.jpg" },
+  { id: "cafe", name: "Cà Phê", price: 30000, image: "./img/cafe.jpg" },
+  { id: "cappuccino", name: "Cappuccino", price: 48000, image: "./img/cappuccino.jpg" },
+  { id: "cheesecake-cafe", name: "Cheesecake Cà Phê", price: 45000, image: "./img/cheesecake-cafe.png" },
+  { id: "chocolate-nong", name: "Chocolate Nóng", price: 42000, image: "./img/chocolate-nong.jpg" },
+  { id: "cold-brew", name: "Cold Brew", price: 52000, image: "./img/cold-brew.jpg" },
+  { id: "cookies-cream-da-xay", name: "Cookies & Cream Đá Xay", price: 56000, image: "./img/cookies-cream-da-xay.jpg" },
+  { id: "cupcake-cafe", name: "Cup Cake Cà Phê", price: 42000, image: "./img/cup-cake-cafe.png" },
+  { id: "cafe-cam", name: "Cà Phê Cam", price: 47000, image: "./img/cafe-cam.png" },
+  { id: "cafe-mocha", name: "Cà Phê Mocha", price: 49000, image: "./img/cafe-mocha.png" },
+  { id: "ca-phe-muoi", name: "Cà Phê Muối", price: 55000, image: "./img/cafe-muoi.jpg" },
+  { id: "ca-phe-sua-da", name: "Cà Phê Sữa Đá", price: 34000, image: "./img/cafe-sua-da.jpg" },
+  { id: "ca-phe-tiramisu", name: "Cà Phê Tiramisu", price: 52000, image: "./img/cafe-tiramisu.png" },
+  { id: "ca-phe-trung", name: "Cà Phê Trứng", price: 60000, image: "./img/cafe-trung.jpg" },
+  { id: "ca-phe-den", name: "Cà Phê Đen", price: 30000, image: "./img/cafe-den.jpg" },
+  { id: "espresso", name: "Espresso", price: 28000, image: "./img/espresso.jpg" },
+  { id: "macchiato", name: "Macchiato", price: 49000, image: "./img/macchiato.jpg" },
+  { id: "matcha-latte", name: "Matcha Latte", price: 52000, image: "./img/matcha-latte.jpg" },
+  { id: "mocha", name: "Mocha", price: 50000, image: "./img/mocha.jpg" },
+  { id: "mojito-chanh", name: "Mojito Chanh", price: 42000, image: "./img/mojito-chanh.jpg" },
+  { id: "oreo-da-xay", name: "Oreo Đá Xay", price: 56000, image: "./img/oreo-da-xay.jpg" },
+  { id: "sinh-to-bo", name: "Sinh Tố Bơ", price: 52000, image: "./img/sinh-to-bo.jpg" },
+  { id: "sinh-to-xoai", name: "Sinh Tố Xoài", price: 52000, image: "./img/sinh-to-xoai.jpg" },
+  { id: "soda-viet-quat", name: "Soda Việt Quất", price: 39000, image: "./img/soda-viet-quat.jpg" },
+  { id: "tra-chanh", name: "Trà Chanh", price: 32000, image: "./img/tra-chanh.jpg" },
+  { id: "tra-sua-cafe", name: "Trà Sữa Cà Phê", price: 41000, image: "./img/tra-sua-cafe.png" },
+  { id: "tra-sua-tran-chau", name: "Trà Sữa Trân Châu", price: 50000, image: "./img/tra-sua-tran-chau.jpg" },
+  { id: "tra-vai", name: "Trà Vải", price: 43000, image: "./img/tra-vai.jpg" },
+  { id: "tra-dao-cam-sa", name: "Trà Đào Cam Sả", price: 45000, image: "./img/tra-dao-cam-sa.jpg" },
+  { id: "tao-pho-cafe", name: "Tào Phớ Cà Phê", price: 44000, image: "./img/tao-pho-cafe.png" },
+  { id: "pudding-cafe", name: "Pudding Cà Phê", price: 38000, image: "./img/pudding-cafe.png" },
+  { id: "rau-cau-cafe", name: "Rau Câu Cà Phê", price: 36000, image: "./img/rau-cau-cafe.png" },
+  { id: "sua-lac-cafe", name: "Sữa Lắc Cà Phê", price: 43000, image: "./img/sua-lac-cafe.png" },
+  { id: "nuoc-ep", name: "Nước Ép", price: 40000, image: "./img/nuoc-ep.jpg" }
+];
+
+const imageBasePath = window.location.pathname.includes('/admin/') ? '../img/' : 'img/';
+staticDrinks.forEach(drink => {
+    drink.image = drink.image.replace(/^((?:\.\.\/|\.\/))?img\//, imageBasePath);
+});
+
+let selectedDrinks = {};
+
+/**
+ * Load drinks grid on page load
+ */
+function loadDrinksGrid() {
+    const grid = document.getElementById("drinksGrid");
+    if (!grid) return;
+    
+    grid.innerHTML = staticDrinks.map(drink => `
+        <div class="drink-card" id="drink-${drink.id}" onclick="toggleDrink('${drink.id}'); return false;">
+            <img src="${escapeHtml(drink.image)}" alt="${escapeHtml(drink.name)}" class="drink-image" onerror="this.src=(window.location.pathname.includes('/admin/') ? '../img/' : 'img/') + 'cafe.jpg'">
+            <div class="drink-name">${escapeHtml(drink.name)}</div>
+            <div class="drink-price">${drink.price.toLocaleString('vi-VN')}₫</div>
+            <div class="drink-qty-control">
+                <button class="drink-qty-btn" onclick="event.stopPropagation(); decrementDrink(event, '${drink.id}'); return false;">−</button>
+                <div class="drink-qty-display" id="qty-${drink.id}">0</div>
+                <button class="drink-qty-btn" onclick="event.stopPropagation(); incrementDrink(event, '${drink.id}'); return false;">+</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+/**
+ * Toggle drink selection
+ */
+function toggleDrink(drinkId) {
+    if (selectedDrinks[drinkId]) {
+        delete selectedDrinks[drinkId];
+    } else {
+        const drink = staticDrinks.find(d => d.id === drinkId);
+        if (drink) {
+            selectedDrinks[drinkId] = { ...drink, qty: 1 };
+        }
+    }
+    updateDrinksUI();
+}
+
+/**
+ * Increment drink quantity
+ */
+function incrementDrink(event, drinkId) {
+    event.stopPropagation();
+    if (!selectedDrinks[drinkId]) {
+        const drink = staticDrinks.find(d => d.id === drinkId);
+        if (drink) selectedDrinks[drinkId] = { ...drink, qty: 1 };
+    } else {
+        selectedDrinks[drinkId].qty++;
+    }
+    updateDrinksUI();
+}
+
+/**
+ * Decrement drink quantity
+ */
+function decrementDrink(event, drinkId) {
+    event.stopPropagation();
+    if (selectedDrinks[drinkId]) {
+        selectedDrinks[drinkId].qty--;
+        if (selectedDrinks[drinkId].qty <= 0) {
+            delete selectedDrinks[drinkId];
+        }
+    }
+    updateDrinksUI();
+}
+
+/**
+ * Update UI for drinks
+ */
+function updateDrinksUI() {
+    staticDrinks.forEach(drink => {
+        const card = document.getElementById(`drink-${drink.id}`);
+        const qty = document.getElementById(`qty-${drink.id}`);
+        
+        if (!card || !qty) return;
+        
+        const isSelected = selectedDrinks[drink.id];
+        qty.textContent = isSelected ? selectedDrinks[drink.id].qty : 0;
+        
+        if (isSelected) {
+            card.classList.add("selected");
+        } else {
+            card.classList.remove("selected");
+        }
+    });
+    
+    updatePills();
+}
+
+/**
+ * Update pills display
+ */
+function updatePills() {
+    const container = document.getElementById("selectedItems");
+    const selected = Object.values(selectedDrinks);
+    
+    if (selected.length === 0) {
+        container.innerHTML = '<span class="empty-pills">Chưa chọn đồ uống nào</span>';
+        return;
+    }
+    
+    container.innerHTML = selected.map(item => `
+        <div class="item-pill">
+            <span>${escapeHtml(item.name)} x${item.qty}</span>
+            <button class="remove-item" onclick="removeDrinkFromCart('${item.id}'); event.stopPropagation();">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `).join("");
+}
+
+/**
+ * Remove drink from cart
+ */
+function removeDrinkFromCart(drinkId) {
+    delete selectedDrinks[drinkId];
+    updateDrinksUI();
+}
+
+/**
+ * Create new order
+ */
+function createOrder() {
+    console.log("🔍 createOrder() called");
+    console.log("📋 selectedDrinks:", selectedDrinks);
+    
+    const name = document.getElementById("customerName").value.trim();
+    const phone = document.getElementById("customerPhone").value.trim();
+    let tableId = document.getElementById("customerTable").value.trim();
+    
+    // Auto-format table ID: if it's just a number, add "Bàn " prefix
+    if (/^\d+$/.test(tableId)) {
+        tableId = "Bàn " + tableId;
+    }
+    
+    console.log("✏️ Inputs - Name:", name, "Phone:", phone, "Table:", tableId);
+    
+    if (!name) {
+        showToast("❌ Vui lòng nhập tên khách!", "error");
+        return;
+    }
+    if (!phone) {
+        showToast("❌ Vui lòng nhập số điện thoại!", "error");
+        return;
+    }
+    if (!tableId) {
+        showToast("❌ Vui lòng nhập bàn/địa chỉ!", "error");
+        return;
+    }
+    
+    const items = Object.values(selectedDrinks);
+    console.log("🍹 Selected items count:", items.length);
+    
+    if (items.length === 0) {
+        showToast("❌ Vui lòng chọn ít nhất 1 đồ uống!", "error");
+        return;
+    }
+    
+    const orderData = {
+        name,
+        phone,
+        tableId: tableId, // Keep as string, API should handle it
+        address: tableId,
+        status: "pending",
+        items: items.map(item => ({
+            name: item.name,
+            price: item.price,
+            qty: item.qty
+        }))
+    };
+    
+    console.log("📤 Raw JSON to send:", JSON.stringify(orderData));
+    console.log("📊 Order details:");
+    console.log("   - Name:", name);
+    console.log("   - Phone:", phone);
+    console.log("   - Table ID:", tableId);
+    console.log("   - Items count:", items.length);
+    console.log("   - Items:", items);
+    
+    fetch(API_RES, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(res => {
+        console.log("📥 Response status:", res.status);
+        console.log("📥 Response headers:", res.headers.get("content-type"));
+        
+        // Get response text for debugging
+        return res.text().then(text => {
+            console.log("📥 Raw response (text):", text);
+            console.log("📥 Response length:", text.length);
+            
+            if (!res.ok) {
+                if (res.status === 400) {
+                    console.error("❌ HTTP 400 Bad Request - API rejected the format");
+                    console.error("   API Error Message:", text);
+                    console.warn("⚠️ Có thể nguyên nhân:");
+                    console.warn("   1. Tên field không đúng (API yêu cầu field khác)");
+                    console.warn("   2. Kiểu dữ liệu sai - ví dụ:");
+                    console.warn("      - tableId phải là number, hiện tại là:", typeof tableId);
+                    console.warn("      - price phải là number");
+                    console.warn("      - qty phải là number");
+                    console.warn("   3. Dữ liệu bắt buộc bị thiếu");
+                    console.warn("   4. Định dạng items array không đúng");
+                    console.warn("   📋 Đơn hàng được gửi:", orderData);
+                    throw new Error("DATA_FORMAT_ERROR");
+                }
+                if (res.status === 404) {
+                    console.warn("⚠️ API endpoint not found (404)");
+                    throw new Error("API_NOT_AVAILABLE");
+                }
+                throw new Error(`HTTP ${res.status}`);
+            }
+            
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                // Success even if no JSON
+                return {};
+            }
+        });
+    })
+    .then(data => {
+        console.log("✅ Đơn được tạo thành công trên API:", data);
+        showToast(`✅ Tạo đơn thành công! (#${data.id || '---'})`, "success", 3000);
+        
+        const createdOrder = {
+            ...orderData,
+            id: data.id || `api_${Date.now()}`,
+            createdAt: data.createdAt || new Date().toISOString()
+        };
+        allOrders = [createdOrder, ...allOrders.filter(o => o.id !== createdOrder.id)];
+        currentFilter = 'pending';
+        filterByStatus('pending');
+        
+        // Clear form
+        document.getElementById("customerName").value = "";
+        document.getElementById("customerPhone").value = "";
+        document.getElementById("customerTable").value = "";
+        selectedDrinks = {};
+        updateDrinksUI();
+    })
+    .catch(error => {
+        console.error("❌ Lỗi tạo đơn:", error.message);
+        
+        // Nếu là lỗi API (không khả dụng hoặc format lỗi), lưu cục bộ
+        if (error.message === "API_NOT_AVAILABLE" || 
+            error.message === "DATA_FORMAT_ERROR" || 
+            error.message === "INVALID_JSON_RESPONSE" ||
+            error.message.includes("HTTP")) {
+            
+            console.warn("⚠️ Lưu đơn vào localStorage do lỗi API");
+            const localOrders = JSON.parse(localStorage.getItem("cafe_orders") || "[]");
+            const newOrder = {
+                id: "local_" + Date.now(),
+                name,
+                phone,
+                tableId,
+                address: tableId,
+                items: items.map(item => ({
+                    name: item.name,
+                    price: item.price,
+                    qty: item.qty
+                })),
+                status: "pending",
+                createdAt: new Date().toISOString(),
+                source: "local"
+            };
+            localOrders.push(newOrder);
+            localStorage.setItem("cafe_orders", JSON.stringify(localOrders));
+            allOrders = [newOrder, ...allOrders.filter(o => o.id !== newOrder.id)];
+            currentFilter = 'pending';
+            filterByStatus('pending');
+            
+            showToast(`✅ Tạo đơn thành công! (lưu cục bộ)`, "success", 3000);
+            
+            // Clear form
+            document.getElementById("customerName").value = "";
+            document.getElementById("customerPhone").value = "";
+            document.getElementById("customerTable").value = "";
+            selectedDrinks = {};
+            updateDrinksUI();
+        } else {
+            showToast("❌ Lỗi: " + error.message, "error");
+        }
+    });
+}
+</script>
+
+
+
+</body>
+</html>
