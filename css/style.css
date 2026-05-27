@@ -345,9 +345,9 @@ body::before {
 }
 
 .menu-section .drink-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 238, 176, 0.06) 100%);
-  border: 1px solid rgba(255, 222, 150, 0.24);
-  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 250, 235, 0.95) 0%, rgba(255, 243, 210, 0.75) 100%);
+  border: 2px solid rgba(175, 115, 45, 0.45);
+  border-radius: 26px;
   overflow: hidden;
   padding: 18px;
   display: flex;
@@ -360,8 +360,8 @@ body::before {
 
 .menu-section .drink-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 40px rgba(255, 209, 132, 0.3);
-  border-color: rgba(255, 223, 143, 0.5);
+  box-shadow: 0 22px 50px rgba(166, 108, 42, 0.25);
+  border-color: rgba(168, 103, 33, 0.75);
 }
 
 .menu-section .drink-image {
@@ -371,19 +371,19 @@ body::before {
   object-fit: cover;
   border-radius: 22px;
   display: block;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 2px solid rgba(175, 115, 45, 0.35);
 }
 
 .menu-section .drink-name {
   font-size: 1.05rem;
   font-weight: 800;
-  color: #fbe8a6;
+  color: #70472c;
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.35);
 }
 
 .menu-section .drink-price {
-  color: #f7d68d;
+  color: #8c5a2a;
   font-weight: 700;
   letter-spacing: 0.04em;
 }

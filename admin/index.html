@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -180,6 +179,20 @@
     padding: 16px;
     color: #f4e5d3;
     vertical-align: middle;
+  }
+
+  #ordersTable th,
+  #ordersTable td,
+  #ordersTable td a,
+  #ordersTable td strong,
+  #ordersTable td small,
+  #ordersTable td span {
+    color: #ffebc1 !important;
+  }
+
+  .item-pill,
+  .item-pill strong {
+    color: #ffebc1 !important;
   }
 
   .badge {
@@ -410,16 +423,16 @@
     margin: 0 auto 8px;
   }
 
-  .drink-name {
+  .drink-card .drink-name {
     font-weight: 700;
-    color: #f4e5d3;
+    color: #ffebc1 !important;
     font-size: 0.9rem;
     margin-bottom: 4px;
   }
 
-  .drink-price {
-    color: #d4a16a;
-    font-weight: 600;
+  .drink-card .drink-price {
+    color: #fff0b8 !important;
+    font-weight: 700;
     font-size: 0.85rem;
   }
 
@@ -1193,8 +1206,8 @@ function loadDrinksGrid() {
     grid.innerHTML = staticDrinks.map(drink => `
         <div class="drink-card" id="drink-${drink.id}" onclick="toggleDrink('${drink.id}'); return false;">
             <img src="${escapeHtml(drink.image)}" alt="${escapeHtml(drink.name)}" class="drink-image" onerror="this.src='../img/cafe.jpg'">
-            <div class="drink-name">${escapeHtml(drink.name)}</div>
-            <div class="drink-price">${drink.price.toLocaleString('vi-VN')}₫</div>
+            <div class="drink-name" style="color: #ffebc1 !important;">${escapeHtml(drink.name)}</div>
+            <div class="drink-price" style="color: #fff0b8 !important;">${drink.price.toLocaleString('vi-VN')}₫</div>
             <div class="drink-qty-control">
                 <button class="drink-qty-btn" onclick="event.stopPropagation(); decrementDrink(event, '${drink.id}'); return false;">−</button>
                 <div class="drink-qty-display" id="qty-${drink.id}">0</div>
