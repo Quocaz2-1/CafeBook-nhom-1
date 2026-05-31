@@ -1,22 +1,22 @@
 /* 🎨 Cafe Booking - Modern Design System */
 :root {
-  --bg: #f8f5f1;
-  --panel: #ffffff;
+  --bg: #f6efe7;
+  --panel: #fffaf5;
 
-  --text: #2c1810;
-  --muted: #6b5b52;
+  --text: #3d2a1f;
+  --muted: #7b675a;
 
   --primary: #8b5e3c;
   --primary-light: #b5835a;
-  --primary-dark: #5c3b28;
+  --primary-dark: #6a452d;
 
-  --accent: #d4a574;
+  --accent: #d6a66f;
 
   --success: #28a745;
   --warning: #ffc107;
   --danger: #dc3545;
 
-  --border: #e7ddd4;
+  --border: #e8ddd2;
 
   --topbar-height: 48px;
   --navbar-height: 72px;
@@ -38,12 +38,10 @@ html {
    - index page reserves topbar + navbar
 */
 body {
-  margin: 0;
-  font-family: "Inter", "Segoe UI", sans-serif;
-  min-height: 100vh;
-  background: #f8f5f1;
-  color: #2c1810;
-  padding-top: var(--navbar-height);
+  background:
+      linear-gradient(180deg,
+        #f9f3ec 0%,
+        #f4ebe1 100%);
 }
 
 body.index-page {
@@ -109,7 +107,7 @@ body::before {
 }
 
 .nav-link {
-  color: var(--text);
+  color: #fff8f0;
 
   background: transparent;
 
@@ -128,7 +126,7 @@ body::before {
 
 .nav-link:hover {
   background: rgba(139, 94, 60, .1);
-  color: var(--primary);
+  color: #ffd89b;
 
   transform: translateY(-2px);
 }
@@ -307,12 +305,10 @@ body::before {
 
 /* 📋 Section Card */
 .page-header {
-  background: rgba(50, 30, 18, 0.95);
-  border: 2px solid rgba(212, 134, 79, 0.3);
-  border-radius: 28px;
-  padding: 36px 40px;
-  margin-bottom: 28px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(135deg,
+      #6f4e37,
+      #8b5e3c);
 }
 
 .page-header h2 {
@@ -325,16 +321,16 @@ body::before {
 
 .page-header p {
   margin: 12px 0 0;
-  color: #d4a574;
+  color: #f3e7d8;;
   line-height: 1.8;
   font-weight: 500;
 }
 
 .section-card {
-      background:
-        linear-gradient(180deg,
-          #fffaf5 0%,
-          #fff5eb 100%);
+  background:
+      linear-gradient(180deg,
+        #fffdfb,
+        #fff7ef);
   color: #2c1810;
 
   border: 1px solid var(--border);
@@ -968,5 +964,5 @@ body::before {
   color: white;
 }
 .text-muted {
-  color: #e4d7ca !important;
+  color: #7b675a !important;
 }
